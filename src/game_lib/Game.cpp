@@ -214,12 +214,17 @@ void Game::_handle_player_turn (
       ostr << cur_player.get_name()
            << " is not getting out of the penalty box"
            << endl;
-      // preserve existing bug behavior
+
+      cur_player.set_is_in_penalty_box(true);
+       //preserve existing bug behavior
+      
       if (!cur_player.response_is_correct()) {
         ostr << "Question was incorrectly answered" << endl;
         ostr << cur_player.get_name()
              << " was sent to the penalty box"
              << endl;
+             
+      cur_player.set_is_in_penalty_box(true);
       }
       _broadcast(ostr.str());
       return;
@@ -234,6 +239,7 @@ void Game::_handle_player_turn (
            << " is getting out of the penalty box"
            << endl;
       _broadcast(ostr.str());
+      cur_player.set_is_in_penalty_box(false);
     }
   }
 
@@ -263,11 +269,14 @@ void Game::_handle_player_turn (
 
   if (response_is_correct)
   {
+    
+    //cur_player.set_is_in_penalty_box(false);
     cur_player.increment_purse();
 
     ostringstream ostr(std::ostringstream::out);
     if (cur_player.get_is_in_penalty_box()) {
       ostr << "Answer was correct!!!!" << endl;
+      cur_player.set_is_in_penalty_box(false);
     }
     else {
       ostr << "Answer was corrent!!!!" << endl;
@@ -281,13 +290,13 @@ void Game::_handle_player_turn (
   }
   else
   {
-    cur_player.set_is_in_penalty_box(true);
-
     ostringstream ostr(std::ostringstream::out);
     ostr << "Question was incorrectly answered" << endl;
     ostr << cur_player.get_name()
          << " was sent to the penalty box"
          << endl;
+    cur_player.set_is_in_penalty_box(true);
+
     _broadcast(ostr.str());
   }
 }
