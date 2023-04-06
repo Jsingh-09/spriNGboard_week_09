@@ -62,6 +62,16 @@ SCENARIO ("player actions are handled correctly")
 
     Game game(board, players);
     game._add_players();
+    
+    THEN("Player 1 is not in penatly box")
+    {
+      REQUIRE(player_1.get_is_in_penalty_box() == false);
+    }
+    THEN("Player 1 and 2 is not inside the penatly box")
+    {
+      REQUIRE(player_2.get_is_in_penalty_box() == false);
+      REQUIRE(player_3.get_is_in_penalty_box() == false);
+    }
 
     player_2.set_place_idx(3);
     player_2.set_purse(3);
@@ -242,6 +252,17 @@ SCENARIO ("player actions are handled correctly")
             }
           }
         }
+        #if 0
+        AND_GIVEN ("Player 1 starts inside the penatly box")
+        {
+          REQUIRE(player_1.get_is_in_penalty_box() == true);
+        }
+        AND_GIVEN ("Player 2 and 3 are not inside the Penalty box")
+        {  
+          REQUIRE(player_2.get_is_in_penalty_box() == false);
+          REQUIRE(player_3.get_is_in_penalty_box() == false);
+        }
+        #endif
       }
     }
   }
